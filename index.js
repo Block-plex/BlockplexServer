@@ -1,7 +1,7 @@
 import $wBmGR$http from "http";
 import {WebSocketServer as $wBmGR$WebSocketServer} from "ws";
 
-
+let $6a767cd48bfac32e$var$players = {};
 
 const $6a767cd48bfac32e$var$PORT = process.env.PORT || 3000;
 // HTTP server (for the status page)
@@ -36,7 +36,6 @@ const $6a767cd48bfac32e$var$server = (0, $wBmGR$http).createServer((req, res)=>{
 const $6a767cd48bfac32e$var$wss = new (0, $wBmGR$WebSocketServer)({
     server: $6a767cd48bfac32e$var$server
 });
-let $6a767cd48bfac32e$var$players = {};
 $6a767cd48bfac32e$var$wss.on("connection", (socket)=>{
     const id = Math.random().toString(36).slice(2);
     $6a767cd48bfac32e$var$players[id] = {
