@@ -1,9 +1,10 @@
 import $wBmGR$http from "http";
 import {WebSocketServer as $wBmGR$WebSocketServer} from "ws";
 
-let $6a767cd48bfac32e$var$players = {};
+
 
 const $6a767cd48bfac32e$var$PORT = process.env.PORT || 3000;
+let $6a767cd48bfac32e$var$players = {};
 // HTTP server (for the status page)
 const $6a767cd48bfac32e$var$server = (0, $wBmGR$http).createServer((req, res)=>{
     res.writeHead(200, {
@@ -27,7 +28,7 @@ const $6a767cd48bfac32e$var$server = (0, $wBmGR$http).createServer((req, res)=>{
         <h1>Blockplex Multiplayer Server</h1>
         <p>Status: Online</p>
         <h1>Blockplex Server</h1>
-        <p>Players online: ${Object.keys(players).length}</p>
+        <p>Players online: ${Object.keys($6a767cd48bfac32e$var$players).length}</p>
       </body>
     </html>
   `);
