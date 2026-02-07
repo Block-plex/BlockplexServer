@@ -70,46 +70,20 @@ class $6a767cd48bfac32e$var$CollisionBox {
     }
 }
 setInterval(()=>{
-    for(const id in $6a767cd48bfac32e$var$players){
-        const p = $6a767cd48bfac32e$var$players[id];
-        const body = p.body;
-        const input = p.input;
-        const speed = 10;
-        // Reset horizontal velocity
-        body.velocity.x = 0;
-        body.velocity.z = 0;
-        if (input.w) {
-            body.velocity.z = -speed * Math.cos(input.angle * Math.PI / 180);
-            body.velocity.x = -speed * Math.sin(input.angle * Math.PI / 180);
-        }
-        if (input.s) {
-            body.velocity.z = speed * Math.cos(input.angle * Math.PI / 180);
-            body.velocity.x = speed * Math.sin(input.angle * Math.PI / 180);
-        }
-        if (input.a) {
-            body.velocity.x = -speed * Math.cos(input.angle * Math.PI / 180);
-            body.velocity.z = speed * Math.sin(input.angle * Math.PI / 180);
-        }
-        if (input.d) {
-            body.velocity.x = speed * Math.cos(input.angle * Math.PI / 180);
-            body.velocity.z = -speed * Math.sin(input.angle * Math.PI / 180);
-        }
-    }
-}, 1000);
-setInterval(()=>{
-    $6a767cd48bfac32e$var$world.step($6a767cd48bfac32e$var$fixedTimeStep);
-    const snapshot = {};
-    for(const id in $6a767cd48bfac32e$var$players){
-        const body = $6a767cd48bfac32e$var$players[id].body;
-        snapshot[id] = {
-            x: body.position.x,
-            y: body.position.y,
-            z: body.position.z,
-            qx: body.quaternion.x,
-            qy: body.quaternion.y,
-            qz: body.quaternion.z,
-            qw: body.quaternion.w
-        };
+    const snapshot = {
+        boxes: []
+    };
+    for(let i = 0; i < boxes.length; i++){
+        const b = boxes[i];
+        snapshot.boxes.push({
+            x: b.position.x,
+            y: b.position.y,
+            z: b.position.z,
+            qx: b.quaternion.x,
+            qy: b.quaternion.y,
+            qz: b.quaternion.z,
+            qw: b.quaternion.w
+        });
     }
     $6a767cd48bfac32e$var$wss.clients.forEach((c)=>c.send(JSON.stringify(snapshot)));
 }, 16);
@@ -146,12 +120,7 @@ const $6a767cd48bfac32e$var$boxCol14 = new $6a767cd48bfac32e$var$CollisionBox(10
 const $6a767cd48bfac32e$var$boxCol15 = new $6a767cd48bfac32e$var$CollisionBox(40, 0.5, 1, 100, 70, 0, function() {}, 0xFF00FF, 1);
 $6a767cd48bfac32e$var$wss.on("connection", (socket)=>{
     const id = Math.random().toString(36).slice(2);
-    const body = $6a767cd48bfac32e$var$createCapsule(1.5, 12);
-    body.position.set(0, 10, 0);
-    body.fixedRotation = true;
-    $6a767cd48bfac32e$var$world.addBody(body);
     $6a767cd48bfac32e$var$players[id] = {
-        body: body,
         input: {
             w: 0,
             a: 0,
