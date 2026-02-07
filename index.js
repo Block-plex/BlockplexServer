@@ -20,10 +20,17 @@ $6a767cd48bfac32e$var$wss.on("connection", (socket)=>{
         z: 0,
         rot: 0
     };
+    // Send the ID to the client
+    socket.send(JSON.stringify({
+        type: "id",
+        id: id
+    }));
     socket.on("message", (msg)=>{
         try {
             const data = JSON.parse(msg);
-            $6a767cd48bfac32e$var$players[id] = data;
+            // Only update if it's a player update
+            if (data.type === "update") $6a767cd48bfac32e$var$players[id] = data.state;
+            console.log("Received message from", id, ":", data);
         } catch  {}
     });
     socket.on("close", ()=>{
