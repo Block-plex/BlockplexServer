@@ -61,24 +61,12 @@ class $6a767cd48bfac32e$var$CollisionBox {
         this.y = y;
         this.z = z;
         this.whenCollide = whenCollide;
-        this.partGeo = new THREE.BoxGeometry();
-        this.partMat = new THREE.MeshStandardMaterial({
-            color: color,
-            wireframe: false
-        });
-        this.part = new THREE.Mesh(this.partGeo, this.partMat);
-        this.part.position.set(x, y, z);
-        this.part.scale.set(width, height, length);
         this.physics = new $wBmGR$Body({
             mass: masss,
             shape: new $wBmGR$Box(new $wBmGR$Vec3(width / 2, height / 2, length / 2)),
             position: new $wBmGR$Vec3(x, y, z)
         });
         $6a767cd48bfac32e$var$world.addBody(this.physics);
-    }
-    detectCollision(x, y, z) {
-        if (x > this.x - this.width / 2 && x < this.x + this.width / 2 && y > this.y - this.height / 2 && y < this.y + this.height / 2 && z > this.z - this.length / 2 && z < this.z + this.length / 2) return true;
-        return false;
     }
 }
 setInterval(()=>{
