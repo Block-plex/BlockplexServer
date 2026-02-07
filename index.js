@@ -73,8 +73,8 @@ setInterval(()=>{
     const snapshot = {
         boxes: []
     };
-    for(let i = 0; i < boxes.length; i++){
-        const b = boxes[i];
+    for(let i = 0; i < $6a767cd48bfac32e$var$boxes.length; i++){
+        const b = $6a767cd48bfac32e$var$boxes[i];
         snapshot.boxes.push({
             x: b.position.x,
             y: b.position.y,
@@ -118,6 +118,23 @@ const $6a767cd48bfac32e$var$boxCol14 = new $6a767cd48bfac32e$var$CollisionBox(10
     plr.z = 0;
 }, 0x00FF00);
 const $6a767cd48bfac32e$var$boxCol15 = new $6a767cd48bfac32e$var$CollisionBox(40, 0.5, 1, 100, 70, 0, function() {}, 0xFF00FF, 1);
+const $6a767cd48bfac32e$var$boxes = [
+    $6a767cd48bfac32e$var$boxCol,
+    $6a767cd48bfac32e$var$boxCol2,
+    $6a767cd48bfac32e$var$boxCol3,
+    $6a767cd48bfac32e$var$boxCol4,
+    $6a767cd48bfac32e$var$boxCol5,
+    $6a767cd48bfac32e$var$boxCol6,
+    $6a767cd48bfac32e$var$boxCol7,
+    $6a767cd48bfac32e$var$boxCol8,
+    $6a767cd48bfac32e$var$boxCol9,
+    $6a767cd48bfac32e$var$boxCol10,
+    $6a767cd48bfac32e$var$boxCol11,
+    $6a767cd48bfac32e$var$boxCol12,
+    $6a767cd48bfac32e$var$boxCol13,
+    $6a767cd48bfac32e$var$boxCol14,
+    $6a767cd48bfac32e$var$boxCol15
+];
 $6a767cd48bfac32e$var$wss.on("connection", (socket)=>{
     const id = Math.random().toString(36).slice(2);
     $6a767cd48bfac32e$var$players[id] = {
