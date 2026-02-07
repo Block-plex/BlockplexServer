@@ -148,6 +148,7 @@ $6a767cd48bfac32e$var$wss.on("connection", (socket)=>{
     const id = Math.random().toString(36).slice(2);
     const body = $6a767cd48bfac32e$var$createCapsule(1.5, 12);
     body.position.set(0, 10, 0);
+    body.fixedRotation = true;
     $6a767cd48bfac32e$var$world.addBody(body);
     $6a767cd48bfac32e$var$players[id] = {
         body: body,
