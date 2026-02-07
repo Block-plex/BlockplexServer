@@ -27,8 +27,6 @@ const $6a767cd48bfac32e$var$server = (0, $wBmGR$http).createServer((req, res)=>{
       <body>
         <h1>Blockplex Multiplayer Server</h1>
         <p>Status: Online</p>
-          <h1>Blockplex Server</h1>
-          <p>Players online: ${Object.keys($6a767cd48bfac32e$var$players).length}</p>
       </body>
     </html>
   `);
