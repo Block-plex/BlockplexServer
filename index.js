@@ -4,13 +4,12 @@ import {WebSocketServer as $wBmGR$WebSocketServer} from "ws";
 
 
 const $6a767cd48bfac32e$var$PORT = process.env.PORT || 3000;
+// HTTP server (for the status page)
 const $6a767cd48bfac32e$var$server = (0, $wBmGR$http).createServer((req, res)=>{
-    res.writeHead(200);
-    const server = (0, $wBmGR$http).createServer((req, res)=>{
-        res.writeHead(200, {
-            "Content-Type": "text/html"
-        });
-        res.end(`
+    res.writeHead(200, {
+        "Content-Type": "text/html"
+    });
+    res.end(`
     <html>
       <head>
         <title>Blockplex Server</title>
@@ -30,8 +29,8 @@ const $6a767cd48bfac32e$var$server = (0, $wBmGR$http).createServer((req, res)=>{
       </body>
     </html>
   `);
-    });
 });
+// WebSocket server
 const $6a767cd48bfac32e$var$wss = new (0, $wBmGR$WebSocketServer)({
     server: $6a767cd48bfac32e$var$server
 });
@@ -52,7 +51,6 @@ $6a767cd48bfac32e$var$wss.on("connection", (socket)=>{
     socket.on("message", (msg)=>{
         try {
             const data = JSON.parse(msg);
-            // Only update if it's a player update
             if (data.type === "update") $6a767cd48bfac32e$var$players[id] = data.state;
             console.log("Received message from", id, ":", data);
         } catch  {}
@@ -61,7 +59,7 @@ $6a767cd48bfac32e$var$wss.on("connection", (socket)=>{
         delete $6a767cd48bfac32e$var$players[id];
     });
 });
-// Send all players to everyone 30 times per second
+// Broadcast player list
 setInterval(()=>{
     const snapshot = JSON.stringify($6a767cd48bfac32e$var$players);
     $6a767cd48bfac32e$var$wss.clients.forEach((client)=>client.send(snapshot));
