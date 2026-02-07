@@ -6,7 +6,33 @@ import {WebSocketServer as $wBmGR$WebSocketServer} from "ws";
 const $6a767cd48bfac32e$var$PORT = process.env.PORT || 3000;
 const $6a767cd48bfac32e$var$server = (0, $wBmGR$http).createServer((req, res)=>{
     res.writeHead(200);
-    res.end("Server is running!");
+    const server = (0, $wBmGR$http).createServer((req, res)=>{
+        res.writeHead(200, {
+            "Content-Type": "text/html"
+        });
+        res.end(`
+    <html>
+      <head>
+        <title>Blockplex Server</title>
+        <style>
+          body {
+            background: #111;
+            color: #0f0;
+            font-family: monospace;
+            text-align: center;
+            padding-top: 100px;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>Blockplex Multiplayer Server</h1>
+        <p>Status: Online</p>
+          <h1>Blockplex Server</h1>
+          <p>Players online: ${Object.keys($6a767cd48bfac32e$var$players).length}</p>
+      </body>
+    </html>
+  `);
+    });
 });
 const $6a767cd48bfac32e$var$wss = new (0, $wBmGR$WebSocketServer)({
     server: $6a767cd48bfac32e$var$server
