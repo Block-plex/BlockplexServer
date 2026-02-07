@@ -122,7 +122,6 @@ $6a767cd48bfac32e$var$wss.on("connection", (socket)=>{
     socket.on("message", (msg)=>{
         try {
             const data = JSON.parse(msg);
-            if (data.type === "update") $6a767cd48bfac32e$var$players[id] = data.state;
             if (data.type === "input") $6a767cd48bfac32e$var$players[id].input = data;
             console.log("Received message from", id, ":", data);
         } catch  {}
@@ -131,11 +130,6 @@ $6a767cd48bfac32e$var$wss.on("connection", (socket)=>{
         delete $6a767cd48bfac32e$var$players[id];
     });
 });
-// Broadcast player list
-setInterval(()=>{
-    const snapshot = JSON.stringify($6a767cd48bfac32e$var$players);
-    $6a767cd48bfac32e$var$wss.clients.forEach((client)=>client.send(snapshot));
-}, 33);
 $6a767cd48bfac32e$var$server.listen($6a767cd48bfac32e$var$PORT, ()=>{
     console.log("Listening on port", $6a767cd48bfac32e$var$PORT);
 });
