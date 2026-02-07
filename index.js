@@ -1,6 +1,6 @@
 import $wBmGR$http from "http";
 import {WebSocketServer as $wBmGR$WebSocketServer} from "ws";
-import {World as $wBmGR$World, Vec3 as $wBmGR$Vec3, Sphere as $wBmGR$Sphere, Cylinder as $wBmGR$Cylinder, Quaternion as $wBmGR$Quaternion, Body as $wBmGR$Body} from "cannon-es";
+import {World as $wBmGR$World, Vec3 as $wBmGR$Vec3, Sphere as $wBmGR$Sphere, Cylinder as $wBmGR$Cylinder, Quaternion as $wBmGR$Quaternion, Body as $wBmGR$Body, Box as $wBmGR$Box} from "cannon-es";
 
 
 
@@ -52,6 +52,35 @@ const $6a767cd48bfac32e$var$server = (0, $wBmGR$http).createServer((req, res)=>{
     </html>
   `);
 });
+class $6a767cd48bfac32e$var$CollisionBox {
+    constructor(width, height, length, x, y, z, whenCollide, color, masss = 0){
+        this.width = width;
+        this.height = height;
+        this.length = length;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.whenCollide = whenCollide;
+        this.partGeo = new THREE.BoxGeometry();
+        this.partMat = new THREE.MeshStandardMaterial({
+            color: color,
+            wireframe: false
+        });
+        this.part = new THREE.Mesh(this.partGeo, this.partMat);
+        this.part.position.set(x, y, z);
+        this.part.scale.set(width, height, length);
+        this.physics = new $wBmGR$Body({
+            mass: masss,
+            shape: new $wBmGR$Box(new $wBmGR$Vec3(width / 2, height / 2, length / 2)),
+            position: new $wBmGR$Vec3(x, y, z)
+        });
+        $6a767cd48bfac32e$var$world.addBody(this.physics);
+    }
+    detectCollision(x, y, z) {
+        if (x > this.x - this.width / 2 && x < this.x + this.width / 2 && y > this.y - this.height / 2 && y < this.y + this.height / 2 && z > this.z - this.length / 2 && z < this.z + this.length / 2) return true;
+        return false;
+    }
+}
 setInterval(()=>{
     for(const id in $6a767cd48bfac32e$var$players){
         const p = $6a767cd48bfac32e$var$players[id];
@@ -100,6 +129,33 @@ setInterval(()=>{
 const $6a767cd48bfac32e$var$wss = new (0, $wBmGR$WebSocketServer)({
     server: $6a767cd48bfac32e$var$server
 });
+const $6a767cd48bfac32e$var$boxCol = new $6a767cd48bfac32e$var$CollisionBox(15, 5, 15, 0, -30, 0, function() {}, 0x00FF00);
+const $6a767cd48bfac32e$var$boxCol2 = new $6a767cd48bfac32e$var$CollisionBox(10, 5, 10, 20, -30, 0, function() {}, 0x00FF00);
+const $6a767cd48bfac32e$var$boxCol3 = new $6a767cd48bfac32e$var$CollisionBox(10, 5, 10, 40, -30, 0, function() {}, 0x00FF00);
+const $6a767cd48bfac32e$var$boxCol4 = new $6a767cd48bfac32e$var$CollisionBox(10, 7, 10, 60, -30, 0, function() {}, 0x00FF00);
+const $6a767cd48bfac32e$var$boxCol5 = new $6a767cd48bfac32e$var$CollisionBox(10, 25, 10, 80, -30, 0, function() {
+    plr.x = 0;
+    plr.y = 0;
+    plr.z = 0;
+}, 0xFFAA00);
+const $6a767cd48bfac32e$var$boxCol6 = new $6a767cd48bfac32e$var$CollisionBox(10, 25, 10, 60, -30, 15, function() {}, 0x00FF00);
+const $6a767cd48bfac32e$var$boxCol7 = new $6a767cd48bfac32e$var$CollisionBox(10, 25, 10, 60, -30, -15, function() {}, 0x00FF00);
+const $6a767cd48bfac32e$var$boxCol8 = new $6a767cd48bfac32e$var$CollisionBox(250, 5, 250, 0, -60, 0, function() {
+    plr.x = 0;
+    plr.y = 0;
+    plr.z = 0;
+}, 0xFF0000);
+const $6a767cd48bfac32e$var$boxCol9 = new $6a767cd48bfac32e$var$CollisionBox(5, 5, 5, 57, 30, 8, function() {}, 0xFF00FF, 1);
+const $6a767cd48bfac32e$var$boxCol10 = new $6a767cd48bfac32e$var$CollisionBox(5, 5, 5, 57, 40, 8, function() {}, 0xFF00FF, 1);
+const $6a767cd48bfac32e$var$boxCol11 = new $6a767cd48bfac32e$var$CollisionBox(5, 5, 5, 57, 50, 8, function() {}, 0xFF00FF, 1);
+const $6a767cd48bfac32e$var$boxCol12 = new $6a767cd48bfac32e$var$CollisionBox(5, 5, 5, 57, 60, 8, function() {}, 0xFF00FF, 1);
+const $6a767cd48bfac32e$var$boxCol13 = new $6a767cd48bfac32e$var$CollisionBox(5, 5, 5, 57, 70, 8, function() {}, 0xFF00FF, 1);
+const $6a767cd48bfac32e$var$boxCol14 = new $6a767cd48bfac32e$var$CollisionBox(10, 25, 10, 120, -30, 0, function() {
+    plr.x = 0;
+    plr.y = 0;
+    plr.z = 0;
+}, 0x00FF00);
+const $6a767cd48bfac32e$var$boxCol15 = new $6a767cd48bfac32e$var$CollisionBox(40, 0.5, 1, 100, 70, 0, function() {}, 0xFF00FF, 1);
 $6a767cd48bfac32e$var$wss.on("connection", (socket)=>{
     const id = Math.random().toString(36).slice(2);
     const body = $6a767cd48bfac32e$var$createCapsule(1.5, 12);
