@@ -155,6 +155,8 @@ socket.send(JSON.stringify({
             body: $6a767cd48bfac32e$var$createCapsule(1.5, 12)
         }
     };
+    $6a767cd48bfac32e$var$world.addBody($6a767cd48bfac32e$var$players[id].input.body);
+    const body = $6a767cd48bfac32e$var$players[id].input.body;
     // Send the ID to the client
     socket.send(JSON.stringify({
         type: "id",
