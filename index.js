@@ -90,10 +90,10 @@ setInterval(()=>{
     for(const id in $6a767cd48bfac32e$var$players){
         const p = $6a767cd48bfac32e$var$players[id];
         snapshot.players[id] = {
-            x: p.input.body.position.x,
-            y: p.input.body.position.y,
-            z: p.input.body.position.z,
-            angle: p.input.body.quaternion.toEuler().y
+            x: p.input.x,
+            y: p.input.y,
+            z: p.input.z,
+            angle: p.input.angle
         };
     }
     $6a767cd48bfac32e$var$wss.clients.forEach((c)=>c.send(JSON.stringify(snapshot)));
