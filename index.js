@@ -72,7 +72,8 @@ class $6a767cd48bfac32e$var$CollisionBox {
 setInterval(()=>{
     $6a767cd48bfac32e$var$world.step($6a767cd48bfac32e$var$fixedTimeStep);
     const snapshot = {
-        boxes: []
+        boxes: [],
+        players: {}
     };
     for(let i = 0; i < $6a767cd48bfac32e$var$boxes.length; i++){
         const b = $6a767cd48bfac32e$var$boxes[i];
@@ -85,6 +86,15 @@ setInterval(()=>{
             qz: b.physics.quaternion.z,
             qw: b.physics.quaternion.w
         });
+    }
+    for(const id in $6a767cd48bfac32e$var$players){
+        const p = $6a767cd48bfac32e$var$players[id];
+        snapshot.players[id] = {
+            x: p.input.body.position.x,
+            y: p.input.body.position.y,
+            z: p.input.body.position.z,
+            angle: p.input.body.quaternion.toEuler().y
+        };
     }
     $6a767cd48bfac32e$var$wss.clients.forEach((c)=>c.send(JSON.stringify(snapshot)));
 }, 16);
