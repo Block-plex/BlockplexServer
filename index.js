@@ -72,6 +72,7 @@ class $6a767cd48bfac32e$var$CollisionBox {
 setInterval(()=>{
     $6a767cd48bfac32e$var$world.step($6a767cd48bfac32e$var$fixedTimeStep);
     const snapshot = {
+        type: "state",
         boxes: [],
         players: {}
     };
@@ -181,6 +182,15 @@ socket.send(JSON.stringify({
                 body.position.y = data.y;
                 body.position.z = data.z;
                 body.quaternion.setFromEuler(0, data.angle, 0);
+            }
+            if (data.type === "chat") {
+                // Broadcast to everyone 
+                const chatPacket = JSON.stringify({
+                    type: "chat",
+                    from: id,
+                    message: data.sender + ": " + data.message
+                });
+                $6a767cd48bfac32e$var$wss.clients.forEach((c)=>c.send(chatPacket));
             }
             console.log("Received message from", id, ":", data);
         } catch  {}
