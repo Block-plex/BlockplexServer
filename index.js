@@ -70,6 +70,7 @@ class $6a767cd48bfac32e$var$CollisionBox {
     }
 }
 setInterval(()=>{
+    $6a767cd48bfac32e$var$world.step($6a767cd48bfac32e$var$fixedTimeStep);
     const snapshot = {
         boxes: []
     };
