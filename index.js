@@ -76,13 +76,13 @@ setInterval(()=>{
     for(let i = 0; i < $6a767cd48bfac32e$var$boxes.length; i++){
         const b = $6a767cd48bfac32e$var$boxes[i];
         snapshot.boxes.push({
-            x: b.position.x,
-            y: b.position.y,
-            z: b.position.z,
-            qx: b.quaternion.x,
-            qy: b.quaternion.y,
-            qz: b.quaternion.z,
-            qw: b.quaternion.w
+            x: b.physics.position.x,
+            y: b.physics.position.y,
+            z: b.physics.position.z,
+            qx: b.physics.quaternion.x,
+            qy: b.physics.quaternion.y,
+            qz: b.physics.quaternion.z,
+            qw: b.physics.quaternion.w
         });
     }
     $6a767cd48bfac32e$var$wss.clients.forEach((c)=>c.send(JSON.stringify(snapshot)));
