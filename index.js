@@ -138,12 +138,21 @@ const $6a767cd48bfac32e$var$boxes = [
 ];
 $6a767cd48bfac32e$var$wss.on("connection", (socket)=>{
     const id = Math.random().toString(36).slice(2);
-    $6a767cd48bfac32e$var$players[id] = {
+    /* what player sends:
+socket.send(JSON.stringify({
+        type: "input",
+        x: plr.x,
+        y: plr.y,
+        z: plr.z,
+        angle: cameraLookaroundAngle
+        }));
+  */ $6a767cd48bfac32e$var$players[id] = {
         input: {
-            w: 0,
-            a: 0,
-            s: 0,
-            d: 0
+            x: 0,
+            y: 0,
+            z: 0,
+            angle: 0,
+            body: $6a767cd48bfac32e$var$createCapsule(1.5, 12)
         }
     };
     // Send the ID to the client
@@ -154,7 +163,13 @@ $6a767cd48bfac32e$var$wss.on("connection", (socket)=>{
     socket.on("message", (msg)=>{
         try {
             const data = JSON.parse(msg);
-            if (data.type === "input") $6a767cd48bfac32e$var$players[id].input = data;
+            if (data.type === "input") {
+                $6a767cd48bfac32e$var$players[id].input = data;
+                body.position.x = data.x;
+                body.position.y = data.y;
+                body.position.z = data.z;
+                body.quaternion.setFromEuler(0, data.angle, 0);
+            }
             console.log("Received message from", id, ":", data);
         } catch  {}
     });
