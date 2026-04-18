@@ -57,7 +57,7 @@ const $6a767cd48bfac32e$var$server = (0, $wBmGR$http).createServer((req, res)=>{
         let body = "";
         req.on("data", (chunk)=>body += chunk);
         req.on("end", ()=>{
-            (0, $wBmGR$fs).writeFileSync("map.txt", body);
+            (0, $wBmGR$fs).writeFileSync("obby.txt", body);
             $6a767cd48bfac32e$var$loadMap();
             // Broadcast new map
             const packet = JSON.stringify({
