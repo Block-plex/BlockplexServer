@@ -157,6 +157,7 @@ socket.send(JSON.stringify({
         type: "map",
         data: $6a767cd48bfac32e$var$mapData
     }));
+    console.log("Sending map data to", id, " with map data ", $6a767cd48bfac32e$var$mapData);
     socket.on("message", (msg)=>{
         try {
             const data = JSON.parse(msg);
