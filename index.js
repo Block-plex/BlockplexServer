@@ -1,11 +1,34 @@
 import $wBmGR$http from "http";
 import {WebSocketServer as $wBmGR$WebSocketServer} from "ws";
 import {World as $wBmGR$World, Vec3 as $wBmGR$Vec3, Sphere as $wBmGR$Sphere, Cylinder as $wBmGR$Cylinder, Quaternion as $wBmGR$Quaternion, Body as $wBmGR$Body, Box as $wBmGR$Box} from "cannon-es";
+import "fs";
 
 
 
 
-const $6a767cd48bfac32e$var$PORT = process.env.PORT || 3000;
+
+const $6a767cd48bfac32e$var$PORT = 3000;
+const $6a767cd48bfac32e$var$rawMap = "0.0,-5.0,0.0,26.0,1.0,20.0,255.0,176.0,0.0\n0.5,-5.0,-17.0,7.0,1.0,8.0,31.0,128.0,29.0\n0.5,-5.0,-29.0,7.0,1.0,8.0,31.0,128.0,29.0\n0.0,-5.0,-42.0,18.0,1.0,8.0,31.0,128.0,29.0\n-6.5,2.0,-42.0,5.0,15.0,8.0,31.0,128.0,29.0\n6.5,2.0,-42.0,5.0,15.0,8.0,31.0,128.0,29.0\n1.0,0.5,-42.0,4.0,4.0,4.0,255.0,0.0,191.0\n0.0,6.5,-42.0,4.0,4.0,4.0,255.0,0.0,191.0\n0.0,14.5,-39.0,4.0,4.0,4.0,255.0,0.0,191.0\n-9.0,15.5,-42.0,4.0,4.0,4.0,255.0,0.0,191.0\n-21.0,12.0,-42.0,10.0,7.0,8.0,148.0,190.0,129.0\n-31.5,15.0,-42.0,3.0,1.0,8.0,0.0,255.0,255.0\n-41.5,15.0,-42.0,13.0,1.0,14.0,193.0,190.0,66.0\n-41.5,20.0,-35.5,13.0,11.0,1.0,163.0,162.0,165.0\n-41.5,20.0,-48.5,13.0,11.0,1.0,163.0,162.0,165.0\n-47.5,20.0,-42.0,12.0,11.0,1.0,163.0,162.0,165.0\n-41.5,26.0,-42.0,13.0,1.0,14.0,163.0,162.0,165.0\n-35.5,20.0,-38.0,4.0,11.0,1.0,163.0,162.0,165.0\n-35.5,20.0,-46.0,4.0,11.0,1.0,163.0,162.0,165.0\n-35.5,24.0,-42.0,4.0,3.0,1.0,163.0,162.0,165.0\n-41.5,20.0,-35.5,13.0,11.0,1.0,193.0,190.0,66.0\n-35.5,24.0,-42.0,4.0,3.0,1.0,193.0,190.0,66.0\n-35.5,20.0,-46.0,4.0,11.0,1.0,193.0,190.0,66.0\n-35.5,20.0,-38.0,4.0,11.0,1.0,193.0,190.0,66.0\n-41.5,26.0,-42.0,13.0,1.0,14.0,193.0,190.0,66.0\n-41.5,20.0,-48.5,13.0,11.0,1.0,193.0,190.0,66.0\n-47.5,20.0,-42.0,12.0,11.0,1.0,193.0,190.0,66.0\n".trim().split("\n");
+const $6a767cd48bfac32e$var$mapData = $6a767cd48bfac32e$var$rawMap.map((line)=>{
+    const nums = line.split(",").map(Number);
+    return {
+        pos: {
+            x: nums[0],
+            y: nums[1],
+            z: nums[2]
+        },
+        size: {
+            x: nums[3],
+            y: nums[4],
+            z: nums[5]
+        },
+        color: {
+            r: nums[6],
+            g: nums[7],
+            b: nums[8]
+        }
+    };
+});
 let $6a767cd48bfac32e$var$players = {};
 const $6a767cd48bfac32e$var$world = new $wBmGR$World({
     gravity: new $wBmGR$Vec3(0, -9.82, 0)
@@ -103,50 +126,7 @@ setInterval(()=>{
 const $6a767cd48bfac32e$var$wss = new (0, $wBmGR$WebSocketServer)({
     server: $6a767cd48bfac32e$var$server
 });
-const $6a767cd48bfac32e$var$boxCol = new $6a767cd48bfac32e$var$CollisionBox(15, 5, 15, 0, -30, 0, function() {}, 0x00FF00);
-const $6a767cd48bfac32e$var$boxCol2 = new $6a767cd48bfac32e$var$CollisionBox(10, 5, 10, 20, -30, 0, function() {}, 0x00FF00);
-const $6a767cd48bfac32e$var$boxCol3 = new $6a767cd48bfac32e$var$CollisionBox(10, 5, 10, 40, -30, 0, function() {}, 0x00FF00);
-const $6a767cd48bfac32e$var$boxCol4 = new $6a767cd48bfac32e$var$CollisionBox(10, 7, 10, 60, -30, 0, function() {}, 0x00FF00);
-const $6a767cd48bfac32e$var$boxCol5 = new $6a767cd48bfac32e$var$CollisionBox(10, 25, 10, 80, -30, 0, function() {
-    plr.x = 0;
-    plr.y = 0;
-    plr.z = 0;
-}, 0xFFAA00);
-const $6a767cd48bfac32e$var$boxCol6 = new $6a767cd48bfac32e$var$CollisionBox(10, 25, 10, 60, -30, 15, function() {}, 0x00FF00);
-const $6a767cd48bfac32e$var$boxCol7 = new $6a767cd48bfac32e$var$CollisionBox(10, 25, 10, 60, -30, -15, function() {}, 0x00FF00);
-const $6a767cd48bfac32e$var$boxCol8 = new $6a767cd48bfac32e$var$CollisionBox(250, 5, 250, 0, -60, 0, function() {
-    plr.x = 0;
-    plr.y = 0;
-    plr.z = 0;
-}, 0xFF0000);
-const $6a767cd48bfac32e$var$boxCol9 = new $6a767cd48bfac32e$var$CollisionBox(5, 5, 5, 57, 30, 8, function() {}, 0xFF00FF, 1);
-const $6a767cd48bfac32e$var$boxCol10 = new $6a767cd48bfac32e$var$CollisionBox(5, 5, 5, 57, 40, 8, function() {}, 0xFF00FF, 1);
-const $6a767cd48bfac32e$var$boxCol11 = new $6a767cd48bfac32e$var$CollisionBox(5, 5, 5, 57, 50, 8, function() {}, 0xFF00FF, 1);
-const $6a767cd48bfac32e$var$boxCol12 = new $6a767cd48bfac32e$var$CollisionBox(5, 5, 5, 57, 60, 8, function() {}, 0xFF00FF, 1);
-const $6a767cd48bfac32e$var$boxCol13 = new $6a767cd48bfac32e$var$CollisionBox(5, 5, 5, 57, 70, 8, function() {}, 0xFF00FF, 1);
-const $6a767cd48bfac32e$var$boxCol14 = new $6a767cd48bfac32e$var$CollisionBox(10, 25, 10, 120, -30, 0, function() {
-    plr.x = 0;
-    plr.y = 0;
-    plr.z = 0;
-}, 0x00FF00);
-const $6a767cd48bfac32e$var$boxCol15 = new $6a767cd48bfac32e$var$CollisionBox(40, 0.5, 1, 100, 70, 0, function() {}, 0xFF00FF, 1);
-const $6a767cd48bfac32e$var$boxes = [
-    $6a767cd48bfac32e$var$boxCol,
-    $6a767cd48bfac32e$var$boxCol2,
-    $6a767cd48bfac32e$var$boxCol3,
-    $6a767cd48bfac32e$var$boxCol4,
-    $6a767cd48bfac32e$var$boxCol5,
-    $6a767cd48bfac32e$var$boxCol6,
-    $6a767cd48bfac32e$var$boxCol7,
-    $6a767cd48bfac32e$var$boxCol8,
-    $6a767cd48bfac32e$var$boxCol9,
-    $6a767cd48bfac32e$var$boxCol10,
-    $6a767cd48bfac32e$var$boxCol11,
-    $6a767cd48bfac32e$var$boxCol12,
-    $6a767cd48bfac32e$var$boxCol13,
-    $6a767cd48bfac32e$var$boxCol14,
-    $6a767cd48bfac32e$var$boxCol15
-];
+const $6a767cd48bfac32e$var$boxes = $6a767cd48bfac32e$var$mapData.map((data)=>new $6a767cd48bfac32e$var$CollisionBox(data.size.x, data.size.y, data.size.z, data.pos.x, data.pos.y, data.pos.z, function() {}, data.color));
 $6a767cd48bfac32e$var$wss.on("connection", (socket)=>{
     const id = Math.random().toString(36).slice(2);
     /* what player sends:
@@ -172,6 +152,10 @@ socket.send(JSON.stringify({
     socket.send(JSON.stringify({
         type: "id",
         id: id
+    }));
+    socket.send(JSON.stringify({
+        type: "map",
+        data: $6a767cd48bfac32e$var$mapData
     }));
     socket.on("message", (msg)=>{
         try {
