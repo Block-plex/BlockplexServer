@@ -34,6 +34,7 @@ function $6a767cd48bfac32e$var$loadMap() {
     console.log("Map reloaded:", $6a767cd48bfac32e$var$mapData.length, "blocks");
 }
 $6a767cd48bfac32e$var$loadMap();
+$6a767cd48bfac32e$var$rebuildBoxes();
 let $6a767cd48bfac32e$var$players = {};
 const $6a767cd48bfac32e$var$world = new $wBmGR$World({
     gravity: new $wBmGR$Vec3(0, -9.82, 0)
@@ -57,16 +58,18 @@ const $6a767cd48bfac32e$var$server = (0, $wBmGR$http).createServer((req, res)=>{
         let body = "";
         req.on("data", (chunk)=>body += chunk);
         req.on("end", ()=>{
-            (0, $wBmGR$fs).writeFileSync("obby.txt", body);
-            $6a767cd48bfac32e$var$loadMap();
-            // Broadcast new map
-            const packet = JSON.stringify({
-                type: "map",
-                data: $6a767cd48bfac32e$var$mapData
+            req.on("end", ()=>{
+                (0, $wBmGR$fs).writeFileSync("obby.txt", body);
+                $6a767cd48bfac32e$var$loadMap();
+                $6a767cd48bfac32e$var$rebuildBoxes(); // <-- THIS FIXES EVERYTHING
+                const packet = JSON.stringify({
+                    type: "map",
+                    data: $6a767cd48bfac32e$var$mapData
+                });
+                $6a767cd48bfac32e$var$wss.clients.forEach((c)=>c.send(packet));
+                res.writeHead(200);
+                res.end("Map updated");
             });
-            $6a767cd48bfac32e$var$wss.clients.forEach((c)=>c.send(packet));
-            res.writeHead(200);
-            res.end("Map updated");
         });
         return;
     }
@@ -142,7 +145,14 @@ setInterval(()=>{
 const $6a767cd48bfac32e$var$wss = new (0, $wBmGR$WebSocketServer)({
     server: $6a767cd48bfac32e$var$server
 });
-const $6a767cd48bfac32e$var$boxes = $6a767cd48bfac32e$var$mapData.map((data)=>new $6a767cd48bfac32e$var$CollisionBox(data.size.x, data.size.y, data.size.z, data.pos.x, data.pos.y, data.pos.z, function() {}, data.color));
+let $6a767cd48bfac32e$var$boxes = [];
+function $6a767cd48bfac32e$var$rebuildBoxes() {
+    // Remove old physics bodies
+    for (const b of $6a767cd48bfac32e$var$boxes)$6a767cd48bfac32e$var$world.removeBody(b.physics);
+    // Create new ones
+    $6a767cd48bfac32e$var$boxes = $6a767cd48bfac32e$var$mapData.map((data)=>new $6a767cd48bfac32e$var$CollisionBox(data.size.x, data.size.y, data.size.z, data.pos.x, data.pos.y, data.pos.z, ()=>{}, data.color));
+    console.log("Physics boxes rebuilt:", $6a767cd48bfac32e$var$boxes.length);
+}
 $6a767cd48bfac32e$var$wss.on("connection", (socket)=>{
     const id = Math.random().toString(36).slice(2);
     /* what player sends:
