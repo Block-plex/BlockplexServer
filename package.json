@@ -6,6 +6,6 @@
     "cannon-es": "^0.20.0"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node index.js"
   }
 }
