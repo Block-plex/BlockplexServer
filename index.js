@@ -23,9 +23,6 @@ function loadMap() {
     console.log("Map reloaded:", mapData.length, "blocks");
 }
 
-loadMap();
-rebuildBoxes();
-
 let players = {};
 
 import * as CANNON from "cannon-es";
@@ -166,6 +163,9 @@ function rebuildBoxes() {
 
     console.log("Physics boxes rebuilt:", boxes.length);
 }
+
+loadMap();
+rebuildBoxes();
 
 wss.on("connection", (socket) => {
   const id = Math.random().toString(36).slice(2);
