@@ -73,17 +73,15 @@ const server = http.createServer((req, res) => {
 
         req.on("data", chunk => body += chunk);
         req.on("end", () => {
-          req.on("end", () => {
-            fs.writeFileSync("obby.txt", body);
-            loadMap();
-            rebuildBoxes();   // <-- THIS FIXES EVERYTHING
+          fs.writeFileSync("obby.txt", body);
+          loadMap();
+          rebuildBoxes();   // <-- THIS FIXES EVERYTHING
 
-            const packet = JSON.stringify({ type: "map", data: mapData });
-            wss.clients.forEach(c => c.send(packet));
+          const packet = JSON.stringify({ type: "map", data: mapData });
+          wss.clients.forEach(c => c.send(packet));
 
-            res.writeHead(200);
-            res.end("Map updated");
-          });
+          res.writeHead(200);
+          res.end("Map updated");
         });
 
         return;
