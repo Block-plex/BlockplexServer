@@ -1,6 +1,6 @@
 import $wBmGR$http from "http";
 import {WebSocketServer as $wBmGR$WebSocketServer} from "ws";
-import {World as $wBmGR$World, Vec3 as $wBmGR$Vec3, Sphere as $wBmGR$Sphere, Cylinder as $wBmGR$Cylinder, Quaternion as $wBmGR$Quaternion, Body as $wBmGR$Body, Box as $wBmGR$Box} from "cannon-es";
+import {World as $wBmGR$World, Vec3 as $wBmGR$Vec3, Body as $wBmGR$Body, Box as $wBmGR$Box, Sphere as $wBmGR$Sphere, Cylinder as $wBmGR$Cylinder, Quaternion as $wBmGR$Quaternion} from "cannon-es";
 import $wBmGR$fs from "fs";
 
 
@@ -40,6 +40,23 @@ let $6a767cd48bfac32e$var$players = {};
 const $6a767cd48bfac32e$var$world = new $wBmGR$World({
     gravity: new $wBmGR$Vec3(0, -9.82, 0)
 });
+class $6a767cd48bfac32e$var$CollisionBox {
+    constructor(width, height, length, x, y, z, whenCollide, color, masss = 0){
+        this.width = width;
+        this.height = height;
+        this.length = length;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.whenCollide = whenCollide;
+        this.physics = new $wBmGR$Body({
+            mass: masss,
+            shape: new $wBmGR$Box(new $wBmGR$Vec3(width / 2, height / 2, length / 2)),
+            position: new $wBmGR$Vec3(x, y, z)
+        });
+        $6a767cd48bfac32e$var$world.addBody(this.physics);
+    }
+}
 const $6a767cd48bfac32e$var$fixedTimeStep = 1 / 60;
 function $6a767cd48bfac32e$var$createCapsule(radius, height) {
     const sphereShape = new $wBmGR$Sphere(radius);
@@ -95,23 +112,6 @@ const $6a767cd48bfac32e$var$server = (0, $wBmGR$http).createServer((req, res)=>{
         </html>
     `);
 });
-class $6a767cd48bfac32e$var$CollisionBox {
-    constructor(width, height, length, x, y, z, whenCollide, color, masss = 0){
-        this.width = width;
-        this.height = height;
-        this.length = length;
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.whenCollide = whenCollide;
-        this.physics = new $wBmGR$Body({
-            mass: masss,
-            shape: new $wBmGR$Box(new $wBmGR$Vec3(width / 2, height / 2, length / 2)),
-            position: new $wBmGR$Vec3(x, y, z)
-        });
-        $6a767cd48bfac32e$var$world.addBody(this.physics);
-    }
-}
 setInterval(()=>{
     $6a767cd48bfac32e$var$world.step($6a767cd48bfac32e$var$fixedTimeStep);
     const snapshot = {

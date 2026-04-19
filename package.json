@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "description": "",
+  "build": "parcel build server.js --no-scope-hoist",
   "dependencies": {
     "cannon-es": "^0.20.0",
     "ws": "^8.19.0"
