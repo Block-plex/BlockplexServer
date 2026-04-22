@@ -35,7 +35,7 @@ const world = new CANNON.World({
 });
 
 class CollisionBox {
-    constructor(width, height, length, x, y, z, whenCollide, color, masss = 0) {
+    constructor(width, height, length, x, y, z, whenCollide, color, masss = 0, rx, ry, rz) {
         this.width = width;
         this.height = height;
         this.length = length;
@@ -48,6 +48,12 @@ class CollisionBox {
             shape: new CANNON.Box(new CANNON.Vec3(width/2, height/2, length/2)),
             position: new CANNON.Vec3(x, y, z)
         });
+        this.physics.quaternion.setFromEuler(
+          rx, ry, rz
+        )
+        this.rx = rx;
+        this.ry = ry;
+        this.rz = rz;
         world.addBody(this.physics);
     }
 }
@@ -159,7 +165,11 @@ function rebuildBoxes() {
         data.pos.y,
         data.pos.z,
         () => {},
-        data.color
+        data.color,
+        0,
+        data.rotation.x,
+        data.rotation.y,
+        data.rotation.z
     ));
 
     console.log("Physics boxes rebuilt:", boxes.length);
