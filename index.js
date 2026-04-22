@@ -16,7 +16,10 @@ function loadMap() {
         return {
             pos: { x: nums[0], y: nums[1], z: nums[2] },
             size: { x: nums[3], y: nums[4], z: nums[5] },
-            color: { r: nums[6], g: nums[7], b: nums[8] }
+            color: { r: nums[6], g: nums[7], b: nums[8] },
+            shape: nums[9],
+            anchored: nums[10],
+            rotation: { x: nums[11], y: nums[12], z: nums[13] }
         };
     });
 
