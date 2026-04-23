@@ -208,6 +208,7 @@ socket.send(JSON.stringify({
   // Send the ID to the client
   socket.send(JSON.stringify({ type: "id", id }));
 
+  let index = 0;
   for (const chunk of chunkArray(mapData, 512)) {
     socket.send(JSON.stringify({
       type: "mapChunk",
@@ -215,6 +216,7 @@ socket.send(JSON.stringify({
       total: chunks.length,
       data: chunk
     }));
+    index += 1;
   }
 
   console.log("Sending map data to", id, " with map data ", mapData);
