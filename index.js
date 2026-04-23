@@ -8,6 +8,14 @@ import fs from "fs";
 let mapData = [];
 let boxes = [];
 
+function chunkArray(arr, size) {
+    const chunks = [];
+    for (let i = 0; i < arr.length; i += size) {
+        chunks.push(arr.slice(i, i + size));
+    }
+    return chunks;
+}
+
 function loadMap() {
     const raw = fs.readFileSync("obby.txt", "utf8").trim().split("\n");
 
@@ -200,10 +208,17 @@ socket.send(JSON.stringify({
   // Send the ID to the client
   socket.send(JSON.stringify({ type: "id", id }));
 
-  socket.send(JSON.stringify({
-      type: "map",
-      data: mapData
-  }));
+  const chunks = chunkArray(mapData, 512);
+
+chunks.forEach((chunk, index) => {
+    socket.send(JSON.stringify({
+        type: "mapChunk",
+        index: index,
+        total: chunks.length,
+        data: chunk
+    }));
+});
+
 
   console.log("Sending map data to", id, " with map data ", mapData);
 
