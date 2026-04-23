@@ -213,7 +213,7 @@ socket.send(JSON.stringify({
     socket.send(JSON.stringify({
       type: "mapChunk",
       index: index,
-      total: chunks.length,
+      total: mapData.length,
       data: chunk
     }));
     index += 1;
